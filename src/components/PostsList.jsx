@@ -15,7 +15,7 @@ function PostsList({listAuth, newAuth, isPosting, onNewPost, onStopPosting}) {
 
     return(
         <>
-            { isPosting && (<Modal onClose={onStopPosting}>
+            { isPosting && (<Modal>
                 <NewPost 
                     onAuthorHandler={onAuthorChangedHandler} 
                     onBodyHandler={onBodyChangedHandler}
