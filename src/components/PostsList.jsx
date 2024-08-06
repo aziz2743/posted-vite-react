@@ -2,9 +2,8 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import Modal from "./Modal"
 import classes from "./PostsList.module.css"
-import { useState } from "react";
 
-function PostsList({listAuth, newAuth, isPosting, onStopPosting}) {
+function PostsList({listAuth, newAuth, isPosting, onNewPost, onStopPosting}) {
     
     function onBodyChangedHandler(event){
         newAuth.body = event.target.value;
@@ -17,7 +16,12 @@ function PostsList({listAuth, newAuth, isPosting, onStopPosting}) {
     return(
         <>
             { isPosting && (<Modal onClose={onStopPosting}>
-                <NewPost onAuthorHandler={onAuthorChangedHandler} onBodyHandler={onBodyChangedHandler}/>
+                <NewPost 
+                    onAuthorHandler={onAuthorChangedHandler} 
+                    onBodyHandler={onBodyChangedHandler}
+                    onCancel={onStopPosting}
+                    onSubmit={onNewPost}
+                    />
             </Modal>)  }
             
             <ul className={classes.posts}>

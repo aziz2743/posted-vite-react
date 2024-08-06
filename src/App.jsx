@@ -20,15 +20,25 @@ function App() {
 
   function hideModalHandler() {
     setModalisVisible(false)
+  }
+  
+  function addNewPostHandler(event){
+    event.preventDefault()
     let authCopy = JSON.parse(JSON.stringify(newAuth))
     listAuth.push(authCopy)
+    setModalisVisible(false)
   }
 
   return (
    <>
     <MainHeader onCreatePost={showModalHandler}/>
     <main>
-      <PostsList listAuth={listAuth} newAuth={newAuth} isPosting={modalIsVisible} onStopPosting={hideModalHandler} />
+      <PostsList 
+        listAuth={listAuth} 
+        newAuth={newAuth} 
+        isPosting={modalIsVisible}
+        onNewPost={addNewPostHandler} 
+        onStopPosting={hideModalHandler} />
     </main>
    </> 
     )
