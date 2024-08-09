@@ -1,36 +1,41 @@
+import { useState } from 'react'
+
 import Post from "./Post";
 import NewPost from "./NewPost";
 import Modal from "./Modal"
 import classes from "./PostsList.module.css"
 
-function PostsList({listAuth, newAuth, isPosting, onNewPost, onStopPosting}) {
-    
-    function onBodyChangedHandler(event){
-        newAuth.body = event.target.value;
-    }
+function PostsList({ isPosting, onStopPosting}) {
+    const [posts, setPosts] = useState([]);
 
-    function onAuthorChangedHandler(event){
-        newAuth.author = event.target.value;
-    }
+  function addNewPostHandler(postData){
+    setPosts((existingPosts) => [postData, ...existingPosts]);
+  }
 
     return(
         <>
-            { isPosting && (<Modal>
+            { isPosting && (<Modal onClose={onStopPosting} >
                 <NewPost 
-                    onAuthorHandler={onAuthorChangedHandler} 
-                    onBodyHandler={onBodyChangedHandler}
-                    onCancel={onStopPosting}
-                    onSubmit={onNewPost}
+                    onClose={onStopPosting}
+                    onAddPost={addNewPostHandler}
                     />
             </Modal>)  }
-            
-            <ul className={classes.posts}>
-                {listAuth.map(
-                    item => (
-                        <li><Post author={item.author} body={item.body} /></li>
-                    )
-                )}
-            </ul>
+            {posts.length > 0 && (
+                <ul className={classes.posts}>
+                    {posts.map(
+                        post => (
+                            <li><Post author={post.author} body={post.body} /></li>
+                        )
+                    )}
+                </ul>
+                ) 
+            }
+            {posts.length === 0 && (
+                <div style={{ textAlign: 'center', color: 'white' }}>
+                <h2>There are no posts yet.</h2>
+                <p>Start adding some!</p>
+        </div>
+            )}
         </>
     ) 
 }
