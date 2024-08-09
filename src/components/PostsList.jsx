@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 import Post from "./Post";
 import NewPost from "./NewPost";
@@ -24,7 +25,7 @@ function PostsList({ isPosting, onStopPosting}) {
                 <ul className={classes.posts}>
                     {posts.map(
                         post => (
-                            <li><Post author={post.author} body={post.body} /></li>
+                            <Post key={uuidv4()} author={post.author} body={post.body} />
                         )
                     )}
                 </ul>
