@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Post from './Post';
@@ -7,9 +7,29 @@ import Modal from './Modal';
 import classes from './PostsList.module.css';
 
 function PostsList({ isPosting, onStopPosting }) {
+
+  useEffect( () => {
+    async function fetchPosts() {
+      const response = await fetch('http://localhost:8080/posts');
+      const resData = await response.json(response);
+      setPosts(resData.posts);
+    }
+
+    fetchPosts();
+  }, 
+  [])
+
   const [posts, setPosts] = useState([]);
 
   function addNewPostHandler(postData) {
+    fetch('http://localhost:8080/posts',
+      {
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers: {
+          'Content-type': 'application/json'
+        }
+    });
     setPosts((existingPosts) => [postData, ...existingPosts]);
   }
 
